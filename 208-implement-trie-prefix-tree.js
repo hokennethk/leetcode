@@ -24,18 +24,20 @@ Trie.prototype.insert = function(word, trieNode) {
   }
 
   var childNode = trieNode.children[word.charAt(0)];
-  if (childNode) {
-    this.insert(word.substr(1), childNode);
-  } else {
+
+  // if child node does not exist, add it
+  if (childNode === undefined) {
     trieNode.children[word.charAt(0)] = new TrieNode(word.charAt(0));
     childNode = trieNode.children[word.charAt(0)];
-    if (word.length === 1) {
-      childNode.end = true;
-    } else {
-      this.insert(word.substr(1), childNode);    
-    }
   }
 
+  // if there is only 1 letter in the word left, mark it as an ending letter
+  if (word.length === 1) {
+    childNode.end = true;
+  } else {
+    // else, traverse the rest of the word
+    this.insert(word.substr(1), childNode);    
+  }
 };
 
 /**
@@ -92,7 +94,8 @@ Trie.prototype.startsWith = function(prefix, trieNode) {
  * trie.search("key");
  */
 
-// TEST
+
+//TESTS
 
 // var t = new Trie();
 // t.root.children['b'] = new TrieNode('b');
@@ -129,3 +132,13 @@ Trie.prototype.startsWith = function(prefix, trieNode) {
 // console.assert(t.search('arrest'), 'Failed: insert test #', ++testNo);
 // t.insert('tested');
 // console.assert(t.search('tested'), 'Failed: insert test #', ++testNo);
+
+// //custom?
+// var g = new Trie();
+// g.insert("abc")
+// g.search("abc")
+// g.search("ab")
+// g.insert("ab")
+// g.search("ab")
+// g.insert("ab")
+// g.search("ab")
